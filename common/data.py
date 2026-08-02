@@ -17,7 +17,7 @@ import torch
 def _load_wikitext2_text(split: str = "train") -> str:
     from datasets import load_dataset
 
-    ds = load_dataset("wikitext", "wikitext-2-raw-v1", split=split)
+    ds = load_dataset("Salesforce/wikitext", "wikitext-2-raw-v1", split=split)
     return "\n\n".join(ds["text"])
 
 

@@ -61,7 +61,7 @@ def try_llmcompressor(model_id: str, tokenizer, save_dir: Path):
 
     print("  using llmcompressor...")
     model = AutoModelForCausalLM.from_pretrained(model_id, dtype=torch.bfloat16, device_map="auto")
-    calib_dataset = load_dataset("wikitext", "wikitext-2-raw-v1", split="train").select(range(128))
+    calib_dataset = load_dataset("Salesforce/wikitext", "wikitext-2-raw-v1", split="train").select(range(128))
     recipe = AWQModifier(targets="Linear", scheme=f"W{BITS}A16", group_size=GROUP_SIZE, ignore=["lm_head"])
 
     t0 = time.time()

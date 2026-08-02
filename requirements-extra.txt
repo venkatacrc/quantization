@@ -1,0 +1,20 @@
+# Extra packages used by the quantization labs, on top of what is already
+# installed in the conda environment (torch, transformers, accelerate, trl,
+# peft, datasets, deepspeed, vllm, flash-attn -- see the environment check
+# output in the top-level README).
+#
+# Install with:
+#   pip install -r requirements-extra.txt
+#
+# Every lab script also runs common/env_check.py logic at startup and will
+# tell you exactly which of these it needs if something is missing, so it's
+# fine to install lazily instead of all at once.
+
+bitsandbytes>=0.45        # Lab 08 (QLoRA NF4)
+gptqmodel>=1.7            # Lab 02 (production GPTQ reference)
+autoawq>=0.2.7            # Lab 03 (production AWQ reference)
+llmcompressor>=0.3        # Labs 02-05, 10 (GPTQ/AWQ/SmoothQuant/FP8 recipes, vLLM-ready checkpoints)
+torchao>=0.9              # Labs 05-06 (native FP8 / NVFP4/MXFP4 kernels)
+nvidia-modelopt>=0.23     # Lab 06 (optional: TensorRT Model Optimizer FP4 path)
+matplotlib>=3.8           # all labs (plots saved under results/)
+lm-eval>=0.4              # optional stretch goal mentioned in lab READMEs

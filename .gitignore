@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# lab outputs
+results/*
+!results/.gitkeep
+run_all_logs/
+
+# model / dataset caches if ever pointed locally
+hf_cache/
+checkpoints/
+*.bin
+*.safetensors
+*.gguf
+
+# misc
+.DS_Store
+.env

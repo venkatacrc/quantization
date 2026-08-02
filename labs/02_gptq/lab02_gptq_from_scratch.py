@@ -42,6 +42,8 @@ class HessianAccumulator:
 
     def update(self, x: torch.Tensor) -> None:
         x = x.reshape(-1, x.shape[-1]).float()
+        if self.H.device != x.device:
+            self.H = self.H.to(x.device)
         self.H += x.T @ x
         self.n_tokens += x.shape[0]
 

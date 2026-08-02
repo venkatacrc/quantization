@@ -45,20 +45,21 @@ def try_modelopt_nvfp4(model, calib_samples, device) -> str | None:
     except ImportError:
         print("  nvidia-modelopt not installed; skipping this backend.")
         return None
-
     cfg = getattr(mtq, "NVFP4_DEFAULT_CFG", None)
     if cfg is None:
         print("  nvidia-modelopt is installed but this version has no NVFP4_DEFAULT_CFG; skipping.")
         return None
-
     def forward_loop(m):
         with torch.no_grad():
             for sample in calib_samples:
                 m(sample.to(device))
-
     print("  running nvidia-modelopt NVFP4 PTQ...")
-    mtq.quantize(model, cfg, forward_loop)
-    return "nvidia-modelopt (NVFP4)"
+    try:
+        mtq.quantize(model, cfg, forward_loop)
+        return "nvidia-modelopt (NVFP4)"
+    except Exception as e:
+        print(f"  nvidia-modelopt NVFP4 PTQ failed ({type(e).__name__}: {e}); skipping this backend.")
+        return None
 
 
 def try_torchao_fp4(model) -> str | None:

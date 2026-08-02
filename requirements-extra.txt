@@ -18,4 +18,4 @@ torchao>=0.9              # Labs 05-06 (native FP8 / NVFP4/MXFP4 kernels)
 nvidia-modelopt>=0.23     # Lab 06 (optional: TensorRT Model Optimizer FP4 path)
 matplotlib>=3.8           # all labs (plots saved under results/)
 lm-eval>=0.4              # optional stretch goal mentioned in lab READMEs
-transformer_engine
+transformer_engine[core_cu13]>=2.17.0

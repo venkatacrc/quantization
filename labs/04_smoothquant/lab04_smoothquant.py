@@ -41,6 +41,8 @@ class MaxAbsStats:
 
     def update(self, x: torch.Tensor) -> None:
         x = x.reshape(-1, x.shape[-1]).float().abs()
+        if self.max_abs.device != x.device:
+            self.max_abs = self.max_abs.to(x.device)
         self.max_abs = torch.maximum(self.max_abs, x.amax(dim=0))
 
 

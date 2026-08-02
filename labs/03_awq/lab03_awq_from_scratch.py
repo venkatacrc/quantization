@@ -49,6 +49,8 @@ class ActivationStats:
 
     def update(self, x: torch.Tensor) -> None:
         x = x.reshape(-1, x.shape[-1]).float()
+        if self.abs_sum.device != x.device:
+            self.abs_sum = self.abs_sum.to(x.device)
         self.abs_sum += x.abs().sum(dim=0)
         self.n_tokens += x.shape[0]
         if len(self.cached) < self.cache_batches:

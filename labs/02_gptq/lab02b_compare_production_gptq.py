@@ -66,11 +66,27 @@ def try_llmcompressor(model_id: str, calib_texts: list[str], save_dir: Path) -> 
         from transformers import AutoModelForCausalLM
     except ImportError:
         return None
-
     print("  using llmcompressor...")
     model = AutoModelForCausalLM.from_pretrained(model_id, dtype=torch.bfloat16, device_map="auto")
     calib_dataset = Dataset.from_dict({"text": calib_texts})
-    recipe = GPTQModifier(targets="Linear", scheme=f"W{BITS}A16", group_size=GROUP_SIZE, ignore=["lm_head"])
+    recipe = GPTQModifier(
+        targets="Linear",
+        ignore=["lm_head"],
+        config_groups={
+            "group_0": {
+                "targets": ["Linear"],
+                "weights": {
+                    "num_bits": BITS,
+                    "type": "int",
+                    "symmetric": True,
+                    "strategy": "group",
+                    "group_size": GROUP_SIZE,
+                },
+                "input_activations": None,
+                "output_activations": None,
+            }
+        },
+    )
 
     t0 = time.time()
     oneshot(model=model, dataset=calib_dataset, recipe=recipe, output_dir=str(save_dir))
